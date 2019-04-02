@@ -1,0 +1,19 @@
+{
+  "apiClusterName": "prod-1",
+  "apiClusterDomain": "radix.equinor.com",
+  "apiDomain": "server-radix-api",
+  "apiSwaggerPath": "/swaggerui/swagger.json",
+  "branchEnvMapping": {
+    "webConsole": {
+      "prod": "release",
+      "qa": "master"
+    },
+    "api": {
+      "prod": "release",
+      "qa": "master"
+    }
+  },
+  "environment": "qa",
+  "webConsoleRepo": "git@github.com:equinor/radix-web-console.git",
+  "workspaceDir": "workspace"
+}

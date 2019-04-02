@@ -1,0 +1,5 @@
+{
+  "apiClusterName": "RADIX_CLUSTERNAME",
+  "apiClusterDomain": "RADIX_CLUSTER_BASE",
+  "environment": "RADIX_COMPONENT"
+}

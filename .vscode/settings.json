@@ -1,0 +1,19 @@
+{
+    "editor.insertSpaces": true,
+    "editor.rulers": [
+        80
+    ],
+    "editor.tabSize": 2,
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/.git": true,
+        "**/.hg": true,
+        "**/.svn": true,
+        "**/CVS": true,
+        "node_modules/": true,
+        "workspace/": true
+    },
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "eslint.enable": true
+}
