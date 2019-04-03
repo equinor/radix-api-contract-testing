@@ -30,6 +30,11 @@ export default async function updater(env) {
   localLog({ msg: 'Retrieving Swagger defs', url });
 
   const defsResource = await fetch(url);
+
+  if (defsResource.status !== 200) {
+    throw `API Swagger defs returned status ${defsResource.status}`;
+  }
+
   const defsText = await defsResource.text();
 
   const dir = getWorkspace(env);

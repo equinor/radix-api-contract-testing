@@ -5,9 +5,9 @@ import Mocha, { Suite, Test } from 'mocha';
 import { makeLogger, logLevels } from './logger';
 
 const integrationLogger = makeLogger({ component: 'integration' });
-let globalTestRun = 0;
+let globalRunNumber = 0;
 
-function SilentReporter(runner) {
+function silentReporter(runner) {
   Mocha.reporters.Base.call(this, runner);
 
   const noop = () => null;
@@ -17,9 +17,15 @@ function SilentReporter(runner) {
   runner.on('end', noop);
 }
 
+export const resultTypes = Object.freeze({
+  fail: Symbol('FAIL'),
+  success: Symbol('INFO'),
+  warning: Symbol('WARNING'),
+});
+
 export default async function runIntegrationTest(apiProps, sampleModelData) {
-  const testRun = ++globalTestRun;
-  const mochaInstance = new Mocha({ reporter: SilentReporter });
+  const runNumber = ++globalRunNumber;
+  const mochaInstance = new Mocha({ reporter: silentReporter });
   const suite = Suite.create(
     mochaInstance.suite,
     'Data samples must match API schema requirements'
@@ -54,20 +60,27 @@ export default async function runIntegrationTest(apiProps, sampleModelData) {
     });
   });
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const failures = [];
+    let testCount = 0;
 
-    integrationLogger({ msg: 'Start run', testRun });
+    integrationLogger({ msg: 'Start run', runNumber });
 
-    const runner = mochaInstance.run(errorCount =>
-      errorCount ? reject(failures) : resolve()
+    // const runner = mochaInstance.run(errorCount =>
+    //   errorCount ? reject(failures) : resolve()
+    // );
+
+    const runner = mochaInstance.run(() => resolve({ failures, testCount }));
+
+    runner.on('test', () => ++testCount);
+
+    runner.on('end', () =>
+      integrationLogger({ msg: 'End run', runNumber, testCount })
     );
-
-    runner.on('end', () => integrationLogger({ msg: 'End run', testRun }));
 
     runner.on('fail', test => {
       integrationLogger(
-        { msg: 'Failed test', testRun, test: test.title },
+        { msg: 'Failed test', runNumber, test: test.title },
         logLevels.warning
       );
 

@@ -1,34 +1,39 @@
 const state = {
-  lastErrors: null,
-  lastResultSucceeded: null,
-  lastUpdate: null,
-  status: 'Initialising',
+  latestTestCount: 0,
+  latestTestErrors: null,
+  latestTestRunSucceeded: null,
+  latestTestRunTimestamp: null,
+  testRunStatus: 'Initialising',
 };
 
-function updateState(newState) {
+function updateTestRunState(newState) {
   Object.keys(newState).forEach(key => (state[key] = newState[key]));
-  state.lastUpdate = parseInt((new Date().getTime() / 1000).toFixed(0));
+  state.latestTestRunTimestamp = parseInt(
+    (new Date().getTime() / 1000).toFixed(0)
+  );
 }
 
-export function success() {
-  updateState({
-    lastErrors: null,
-    lastResultSucceeded: true,
-    status: 'Waiting',
+export function testRunSuccess(latestTestCount) {
+  updateTestRunState({
+    latestTestCount,
+    latestTestErrors: null,
+    latestTestRunSucceeded: true,
+    testRunStatus: 'Waiting',
   });
 }
 
-export function failure(lastErrors) {
-  updateState({
-    lastErrors,
-    lastResultSucceeded: false,
-    status: 'Waiting',
+export function testRunFailure(latestTestCount, latestTestErrors) {
+  updateTestRunState({
+    latestTestCount,
+    latestTestErrors,
+    latestTestRunSucceeded: false,
+    testRunStatus: 'Waiting',
   });
 }
 
-export function start() {
-  updateState({
-    status: 'Running',
+export function testRunStart() {
+  updateTestRunState({
+    testRunStatus: 'Running',
   });
 }
 
