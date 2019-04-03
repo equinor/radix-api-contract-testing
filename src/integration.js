@@ -2,9 +2,25 @@ import { checkExact } from 'swagger-proptypes';
 import { expect } from 'chai';
 import Mocha, { Suite, Test } from 'mocha';
 
+import { makeLogger, logLevels } from './logger';
+
+const integrationLogger = makeLogger({ component: 'integration' });
+let globalTestRun = 0;
+
+function SilentReporter(runner) {
+  Mocha.reporters.Base.call(this, runner);
+
+  const noop = () => null;
+
+  runner.on('pass', noop);
+  runner.on('fail', noop);
+  runner.on('end', noop);
+}
+
 export default async function runIntegrationTest(apiProps, sampleModelData) {
-  var mochaInstance = new Mocha();
-  var suite = Suite.create(
+  const testRun = ++globalTestRun;
+  const mochaInstance = new Mocha({ reporter: SilentReporter });
+  const suite = Suite.create(
     mochaInstance.suite,
     'Data samples must match API schema requirements'
   );
@@ -40,15 +56,22 @@ export default async function runIntegrationTest(apiProps, sampleModelData) {
 
   return new Promise((resolve, reject) => {
     const failures = [];
+
+    integrationLogger({ msg: 'Start run', testRun });
+
     const runner = mochaInstance.run(errorCount =>
       errorCount ? reject(failures) : resolve()
     );
 
+    runner.on('end', () => integrationLogger({ msg: 'End run', testRun }));
+
     runner.on('fail', test => {
-      failures.push({
-        test: test.title,
-        error: test.err.actual,
-      });
+      integrationLogger(
+        { msg: 'Failed test', testRun, test: test.title },
+        logLevels.warning
+      );
+
+      failures.push({ test: test.title, error: test.err.actual });
     });
   });
 }

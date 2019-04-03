@@ -7,11 +7,13 @@ import {
   getSourceTestDepsDir,
   getWorkspace,
 } from './workspace';
+import { makeLogger } from '../logger';
 
+const localLog = makeLogger({ component: 'web-console-updater' });
 const webConsoleRemoteRepo = config.get('webConsoleRepo');
 
 async function deleteLocalRepo(env) {
-  console.log('deleting local repo');
+  localLog('Deleting local repo');
 
   return new Promise((resolve, reject) => {
     rimraf(getWorkspace(env), err => (err ? reject(err) : resolve()));
@@ -19,7 +21,7 @@ async function deleteLocalRepo(env) {
 }
 
 async function clone(branch, to) {
-  console.log('cloning', branch, 'to', to);
+  localLog({ msg: 'Cloning remote repo', branch, to });
 
   const { stdout, stderr } = spawn('git', [
     'clone',
@@ -30,17 +32,17 @@ async function clone(branch, to) {
     to,
   ]);
 
-  for await (const data of stdout) {
-    console.log(`stdout from the child: ${data}`);
+  for await (const buf of stdout) {
+    localLog({ msg: 'Clone process stdout', data: buf.toString('utf8') });
   }
 
-  for await (const data of stderr) {
-    console.warn(`stderr from the child: ${data}`);
+  for await (const buf of stderr) {
+    localLog({ msg: 'Clone process stderr', data: buf.toString('utf8') });
   }
 }
 
 async function buildTestDependencies(env) {
-  console.log('building test deps');
+  localLog('Building test deps');
 
   const { stdout, stderr } = spawn('node', [
     './node_modules/.bin/babel',
@@ -50,17 +52,17 @@ async function buildTestDependencies(env) {
     getSourceTestDepsDir(env),
   ]);
 
-  for await (const data of stdout) {
-    console.log(`stdout from the child: ${data}`);
+  for await (const buf of stdout) {
+    localLog({ msg: 'Build process stdout', data: buf.toString('utf8') });
   }
 
-  for await (const data of stderr) {
-    console.warn(`stderr from the child: ${data}`);
+  for await (const buf of stderr) {
+    localLog({ msg: 'Build process stderr', data: buf.toString('utf8') });
   }
 }
 
 export default async function updater(env) {
-  console.log('updating web console');
+  localLog('Updating Web Console');
 
   const branchToClone = config.get('branchEnvMapping.webConsole')[env];
   await deleteLocalRepo(env);

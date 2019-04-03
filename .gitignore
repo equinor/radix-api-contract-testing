@@ -3,6 +3,9 @@
 # web console gets cloned into here
 /workspace
 
+# local config files
+/config/local*
+
 # dependencies
 /node_modules
 

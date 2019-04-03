@@ -1,22 +1,26 @@
 import { propsFromDefs } from 'swagger-proptypes';
+import fs from 'fs';
 
-import config from 'config';
-import fetch from 'node-fetch';
+import { getDefsFilePath } from './workspace';
+import { makeLogger } from '../logger';
 
-const API_DOMAIN = 'server-radix-api';
-const API_SWAGGER_PATH = '/swaggerui/swagger.json';
+const localLog = makeLogger({ component: 'api-fetcher' });
 
-const getDomain = () =>
-  [config.get('apiClusterName'), config.get('apiClusterDomain')].join('.');
+const readFile = (path, opts = 'utf8') =>
+  new Promise((resolve, reject) => {
+    fs.readFile(path, opts, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 
 export default async function fetcher(env) {
-  // TODO: Move this to the update file and return cached results
+  const filePath = getDefsFilePath(env);
+  localLog({ msg: 'Opening API defs file', filePath });
 
-  console.log('fetching api test dependencies');
-
-  const url = `https://${API_DOMAIN}-${env}.${getDomain()}${API_SWAGGER_PATH}`;
-  console.log(`Retrieving Swagger defs from ${url}`);
-
-  const defs = await fetch(url).then(res => res.json());
+  const defs = await readFile(filePath);
   return propsFromDefs(defs.definitions);
 }

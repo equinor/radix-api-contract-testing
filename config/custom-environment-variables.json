@@ -1,5 +1,6 @@
 {
   "apiClusterName": "RADIX_CLUSTERNAME",
   "apiClusterDomain": "RADIX_CLUSTER_BASE",
-  "environment": "RADIX_COMPONENT"
+  "environment": "RADIX_COMPONENT",
+  "githubSharedSecret": "GITHUB_SHARED_SECRET"
 }
