@@ -54,22 +54,17 @@ export default async function runIntegrationTest(apiProps, sampleModelData) {
           // (which is encoded in the data samples)
 
           const fn = () => checkExact(modelType, apiProps[modelType], sample);
-          expect(fn).to.not.throw();
+          expect(fn()).to.eql([]);
         })
       );
     });
   });
 
   return new Promise(resolve => {
-    const failures = [];
-    let testCount = 0;
-
     integrationLogger({ msg: 'Start run', runNumber });
 
-    // const runner = mochaInstance.run(errorCount =>
-    //   errorCount ? reject(failures) : resolve()
-    // );
-
+    let testCount = 0;
+    const failures = [];
     const runner = mochaInstance.run(() => resolve({ failures, testCount }));
 
     runner.on('test', () => ++testCount);

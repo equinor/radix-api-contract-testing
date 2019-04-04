@@ -22,5 +22,6 @@ export default async function fetcher(env) {
   localLog({ msg: 'Opening API defs file', filePath });
 
   const defs = await readFile(filePath);
-  return propsFromDefs(defs.definitions);
+  const jsonDefs = JSON.parse(defs);
+  return propsFromDefs(jsonDefs.definitions);
 }

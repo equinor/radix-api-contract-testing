@@ -29,6 +29,6 @@
     "node-fetch": "^2.3.0",
     "prop-types": "^15.7.2",
     "rimraf": "^2.6.3",
-    "swagger-proptypes": "^4.1.0"
+    "swagger-proptypes": "^6.0.0"
   }
 }

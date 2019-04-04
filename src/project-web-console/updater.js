@@ -10,7 +10,8 @@ import {
 import { makeLogger } from '../logger';
 
 const localLog = makeLogger({ component: 'web-console-updater' });
-const webConsoleRemoteRepo = config.get('webConsoleRepo');
+const webConsoleRemoteRepo =
+  'git@github.com:' + config.get('webConsoleRepo') + '.git';
 
 async function deleteLocalRepo(env) {
   localLog('Deleting local repo');

@@ -10,7 +10,7 @@ export default async function runPipeline(env, changedProjects) {
   await Promise.all(projectsToUpdate.map(proj => updaters[proj](env)));
 
   const webConsoleTestDependencies = await fetchers.webConsole(env);
-  const apiSwaggerProps = fetchers.api(env);
+  const apiSwaggerProps = await fetchers.api(env);
 
   return await runIntegrationTest(
     apiSwaggerProps,
