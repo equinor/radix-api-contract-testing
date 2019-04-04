@@ -8,9 +8,7 @@ const state = {
 
 function updateTestRunState(newState) {
   Object.keys(newState).forEach(key => (state[key] = newState[key]));
-  state.latestTestRunTimestamp = parseInt(
-    (new Date().getTime() / 1000).toFixed(0)
-  );
+  state.latestTestRunTimestamp = new Date().toISOString();
 }
 
 export function testRunSuccess(latestTestCount) {
