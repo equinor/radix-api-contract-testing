@@ -12,7 +12,7 @@ export default async function runPipeline(env, changedProjects) {
   const webConsoleTestDependencies = await fetchers.webConsole(env);
   const apiSwaggerProps = await fetchers.api(env);
 
-  return await runIntegrationTest(
+  return runIntegrationTest(
     apiSwaggerProps,
     webConsoleTestDependencies.testData
   );

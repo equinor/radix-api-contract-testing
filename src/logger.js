@@ -21,7 +21,7 @@ const log = (whatToLog, level = logLevels.info) => {
     JSON.stringify({
       level: level.description,
       pid,
-      datetime: parseInt((new Date().getTime() / 1000).toFixed(0)),
+      datetime: new Date().toISOString(),
       ...logObj,
     })
   );

@@ -25,8 +25,11 @@ async function runPipelineAndUpdateState(env, changedProjects) {
       state.testRunSuccess(result.testCount);
     }
   } catch (err) {
-    state.testRunFailure(0, []);
-    localLog({ msg: 'Error executing pipeline', err }, logLevels.error);
+    state.testRunFailure(0);
+    localLog(
+      { msg: 'Error executing pipeline', err: err.message },
+      logLevels.error
+    );
   }
 
   console.log(state.getState());
