@@ -1,6 +1,7 @@
+import bodyParser from 'body-parser';
 import config from 'config';
 import express from 'express';
-import bodyParser from 'body-parser';
+import expressHbs from 'express-handlebars';
 
 import { name as appName, version as appVersion } from '../package.json';
 
@@ -13,14 +14,24 @@ import * as state from './state';
 state.init();
 
 const localLog = makeLogger({ component: 'app' });
-const app = express();
 
+// --- Set up server -----------------------------------------------------------
+
+const app = express();
+app.engine('.hbs', expressHbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.set('view engine', '.hbs');
+app.set('views', `${__dirname}/views`);
+app.use('/static', express.static(`${__dirname}/static`));
 app.use(bodyParser.text({ type: '*/*' }));
 
 // --- Routing -----------------------------------------------------------------
 
 app.get('/', (_, res) =>
-  res.send('<pre>' + JSON.stringify(state.getState(), null, 2) + '</pre>')
+  res.render('index', {
+    appName,
+    appVersion,
+    state: state.getState(),
+  })
 );
 
 app.get('/trigger', (_, res) => {

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Kalam:700');
+
+@font-face {
+  font-family: Equinor;
+  src: url(/static/fonts/Equinor-Medium.woff2) format('woff2');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Equinor;
+  font-style: italic;
+  font-weight: bold;
+  src: url(/static/fonts/Equinor-MediumItalic.woff2) format('woff2');
+}
+
+:root {
+  --base-font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  --color-background: hsl(206, 11%, 93%);
+  --color-text: hsl(0, 0%, 3%);
+
+  --space-1: 1px;
+  --space-2: 0.125rem;
+  --space-3: 0.25rem;
+  --space-4: 0.5rem;
+  --space-5: 1rem;
+  --space-6: 1.5rem;
+  --space-7: 2.5rem;
+  --space-default-gap: var(--space-5);
+
+  font-family: var(--base-font-family);
+}
+
+/* --- Reset ---------------------------------------------------------------- */
+
+html {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--base-font-family);
+  text-decoration-skip-ink: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.2;
+  margin: 0;
+}
+
+:disabled {
+  color: var(--color-interactive-disabled-text);
+  cursor: auto;
+}
+
+/* --- Object - Headings ---------------------------------------------------- */
+
+.o-heading-page {
+  font-family: var(--heading-font-family);
+  font-feature-settings: 'ss01';
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.o-heading-section {
+  font-family: var(--heading-font-family);
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: var(--space-7) 0 var(--space-5) 0;
+}

@@ -1,0 +1,24 @@
+<h1 class="o-heading-page">Radix API Contract Testing</h1>
+{{#each state.environments}}
+<div class="envs">
+  <div class="env">
+    <h2 class="o-heading-section">{{@key}}</h2>
+    <dl>
+      <dt>latestTestCount</dt>
+      <dd>{{this.latestTestCount}}</dd>
+
+      <dt>latestTestErrors</dt>
+      <dd>{{this.latestTestErrors}}</dd>
+
+      <dt>latestTestRunSucceeded</dt>
+      <dd>{{this.latestTestRunSucceeded}}</dd>
+
+      <dt>latestTestRunTimestamp</dt>
+      <dd>{{this.latestTestRunTimestamp}}</dd>
+
+      <dt>testRunStatus</dt>
+      <dd>{{this.testRunStatus}}</dd>
+    </dl>
+  </div>
+</div>
+{{/each}}
