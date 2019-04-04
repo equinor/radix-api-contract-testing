@@ -19,7 +19,7 @@ const readFile = (path, opts = 'utf8') =>
 
 export default async function fetcher(env) {
   const filePath = getDefsFilePath(env);
-  localLog({ msg: 'Opening API defs file', filePath });
+  localLog({ msg: 'Opening API defs file', filePath, env });
 
   const defs = await readFile(filePath);
   const jsonDefs = JSON.parse(defs);

@@ -14,15 +14,15 @@ const webConsoleRemoteRepo =
   'git@github.com:' + config.get('webConsoleRepo') + '.git';
 
 async function deleteLocalRepo(env) {
-  localLog('Deleting local repo');
+  localLog({ msg: 'Deleting local repo', env });
 
   return new Promise((resolve, reject) => {
     rimraf(getWorkspace(env), err => (err ? reject(err) : resolve()));
   });
 }
 
-async function clone(branch, to) {
-  localLog({ msg: 'Cloning remote repo', branch, to });
+async function clone(env, branch, to) {
+  localLog({ msg: 'Cloning remote repo', branch, to, env });
 
   const { stdout, stderr } = spawn('git', [
     'clone',
@@ -34,16 +34,16 @@ async function clone(branch, to) {
   ]);
 
   for await (const buf of stdout) {
-    localLog({ msg: 'Clone process stdout', data: buf.toString('utf8') });
+    localLog({ msg: 'Clone process stdout', data: buf.toString('utf8'), env });
   }
 
   for await (const buf of stderr) {
-    localLog({ msg: 'Clone process stderr', data: buf.toString('utf8') });
+    localLog({ msg: 'Clone process stderr', data: buf.toString('utf8'), env });
   }
 }
 
 async function buildTestDependencies(env) {
-  localLog('Building test deps');
+  localLog({ msg: 'Building test deps', env });
 
   const { stdout, stderr } = spawn('node', [
     './node_modules/.bin/babel',
@@ -54,19 +54,19 @@ async function buildTestDependencies(env) {
   ]);
 
   for await (const buf of stdout) {
-    localLog({ msg: 'Build process stdout', data: buf.toString('utf8') });
+    localLog({ msg: 'Build process stdout', data: buf.toString('utf8'), env });
   }
 
   for await (const buf of stderr) {
-    localLog({ msg: 'Build process stderr', data: buf.toString('utf8') });
+    localLog({ msg: 'Build process stderr', data: buf.toString('utf8'), env });
   }
 }
 
 export default async function updater(env) {
-  localLog('Updating Web Console');
+  localLog({ msg: 'Updating Web Console', env });
 
   const branchToClone = config.get('branchEnvMapping.webConsole')[env];
   await deleteLocalRepo(env);
-  await clone(branchToClone, getWorkspace(env));
+  await clone(env, branchToClone, getWorkspace(env));
   await buildTestDependencies(env);
 }

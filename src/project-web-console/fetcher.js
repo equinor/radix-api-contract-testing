@@ -6,6 +6,6 @@ const localLog = makeLogger({ component: 'web-console-fetcher' });
 const TEST_DEPS_MODULE = 'test-dependencies';
 
 export default async function fetcher(env) {
-  localLog('Fetching Web Console test dependencies');
+  localLog({ msg: 'Fetching Web Console test dependencies', env });
   return await require(`${getBuiltTestDepsDir(env)}/${TEST_DEPS_MODULE}`);
 }

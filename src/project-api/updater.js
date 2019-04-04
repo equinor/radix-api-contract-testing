@@ -8,7 +8,7 @@ import { makeLogger } from '../logger';
 const API_DOMAIN = 'server-radix-api';
 const API_SWAGGER_PATH = '/swaggerui/swagger.json';
 
-const localLog = makeLogger({ component: 'api-fetcher' });
+const localLog = makeLogger({ component: 'api-updater' });
 
 const getDomain = () =>
   [config.get('apiClusterName'), config.get('apiClusterDomain')].join('.');
@@ -27,7 +27,7 @@ function writeFile(path, data, opts = 'utf8') {
 
 export default async function updater(env) {
   const url = `https://${API_DOMAIN}-${env}.${getDomain()}${API_SWAGGER_PATH}`;
-  localLog({ msg: 'Retrieving Swagger defs', url });
+  localLog({ msg: 'Retrieving Swagger defs', url, env });
 
   const defsResource = await fetch(url);
 
@@ -44,6 +44,6 @@ export default async function updater(env) {
   }
 
   const filePath = getDefsFilePath(env);
-  localLog({ msg: 'Saving Swagger defs', filePath });
+  localLog({ msg: 'Saving Swagger defs', filePath, env });
   await writeFile(filePath, defsText);
 }

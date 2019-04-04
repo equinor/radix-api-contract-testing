@@ -14,7 +14,6 @@
       "qa": "master"
     }
   },
-  "environment": "qa",
   "port": 3000,
   "webConsoleRepo": "equinor/radix-web-console",
   "workspaceDir": "workspace"

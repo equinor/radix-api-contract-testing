@@ -5,7 +5,7 @@ import crypto from 'crypto';
 
 import { name as appName, version as appVersion } from '../package.json';
 
-import { getKeyByValue } from './utils';
+import { getKeyByValue, getEnvironemnts } from './utils';
 import { makeLogger, logLevels } from './logger';
 import * as state from './state';
 import runPipeline from './pipeline';
@@ -14,26 +14,28 @@ const localLog = makeLogger({ component: 'app' });
 const branchEnvMapping = config.get('branchEnvMapping');
 
 async function runPipelineAndUpdateState(env, changedProjects) {
-  state.testRunStart();
+  state.testRunStart(env);
 
   try {
     const result = await runPipeline(env, changedProjects);
 
     if (result.failures.length > 0) {
-      state.testRunFailure(result.testCount, result.failures);
+      state.testRunFailure(env, result.testCount, result.failures);
     } else {
-      state.testRunSuccess(result.testCount);
+      state.testRunSuccess(env, result.testCount);
     }
   } catch (err) {
-    state.testRunFailure(0);
+    state.testRunFailure(env, 0, null);
     localLog(
-      { msg: 'Error executing pipeline', err: err.message },
+      { msg: 'Error executing pipeline', err: err.message || err, env },
       logLevels.error
     );
   }
 
   console.log(state.getState());
 }
+
+state.init();
 
 const app = express();
 const port = config.get('port');
@@ -45,7 +47,9 @@ app.get('/', (_, res) =>
 );
 
 app.get('/trigger', (_, res) => {
-  runPipelineAndUpdateState(config.get('environment'), []);
+  getEnvironemnts().forEach(env => {
+    runPipelineAndUpdateState(env, []);
+  });
   res.send('triggered');
 });
 
@@ -88,5 +92,8 @@ app.post('/webhook', (req, res) => {
 
 app.listen(port, () => {
   localLog(`${appName} ${appVersion} listening on port ${port}`);
-  runPipelineAndUpdateState(config.get('environment'));
+
+  getEnvironemnts().forEach(env => {
+    runPipelineAndUpdateState(env);
+  });
 });

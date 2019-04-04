@@ -2,15 +2,15 @@ import { checkExact } from 'swagger-proptypes';
 
 import { makeLogger, logLevels } from './logger';
 
-const integrationLogger = makeLogger({ component: 'integration' });
+const localLog = makeLogger({ component: 'integration' });
 let globalRunNumber = 0;
 
-export default function runIntegrationTest(apiProps, sampleModelData) {
+export default function runIntegrationTest(env, apiProps, sampleModelData) {
   const runNumber = ++globalRunNumber;
   const failures = [];
   let testCount = 0;
 
-  integrationLogger({ msg: 'Start run', runNumber });
+  localLog({ msg: 'Start run', runNumber, env });
 
   Object.keys(sampleModelData).forEach(modelType => {
     // Iterate over all data samples for this modelType
@@ -36,7 +36,7 @@ export default function runIntegrationTest(apiProps, sampleModelData) {
       const testErrors = checkExact(modelType, apiProps[modelType], sample);
 
       if (testErrors.length > 0) {
-        integrationLogger(
+        localLog(
           {
             msg: 'Failed test',
             runNumber,
@@ -44,6 +44,7 @@ export default function runIntegrationTest(apiProps, sampleModelData) {
             sampleNumber,
             testDescription,
             propFailures: testErrors.length,
+            env,
           },
           logLevels.warning
         );
@@ -55,7 +56,7 @@ export default function runIntegrationTest(apiProps, sampleModelData) {
     });
   });
 
-  integrationLogger({ msg: 'End run', runNumber, testCount });
+  localLog({ msg: 'End run', runNumber, testCount, env });
 
   return { testCount, failures };
 }
