@@ -55,7 +55,7 @@ The GitHub repos for `radix-web-console` and `radix-api` require a [webhook](htt
 
 ## Secrets
 
-The application requires one environment variable, `GITHUB_SHARED_SECRET`, that should be defined as a Radix secret in production. For local development, instead of an environment variable you can create the file `/config/local.json` (this won't be added to git), and specify the value as such:
+The application requires one environment variable, `GITHUB_SHARED_SECRET`, that should be defined as a [Radix secret](https://www.radix.equinor.com/docs/topic-concepts/#secret) in production. For local development, instead of an environment variable you can create the file `/config/local.json` (this won't be added to git), and specify the value as such:
 
 ```json
 {
