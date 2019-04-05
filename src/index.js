@@ -21,10 +21,16 @@ const app = express();
 app.engine('.hbs', expressHbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', `${__dirname}/views`);
-app.use('/static', express.static(`${__dirname}/static`));
 app.use(bodyParser.text({ type: '*/*' }));
 
 // --- Routing -----------------------------------------------------------------
+
+app.use('/static', express.static(`${__dirname}/static`));
+
+app.use(
+  '/sanitize.css',
+  express.static(`${__dirname}/../node_modules/sanitize.css/sanitize.css`)
+);
 
 app.get('/', (_, res) =>
   res.render('index', {

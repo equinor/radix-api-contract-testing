@@ -23,7 +23,7 @@ export async function runPipeline(env, changedProjects) {
 }
 
 export async function runPipelineAndUpdateState(env, changedProjects) {
-  state.testRunStart(env);
+  state.pipelineRunStart(env);
 
   try {
     const result = await runPipeline(env, changedProjects);
@@ -34,7 +34,7 @@ export async function runPipelineAndUpdateState(env, changedProjects) {
       state.testRunSuccess(env, result.testCount);
     }
   } catch (err) {
-    state.testRunFailure(env, 0, null);
+    state.pipelineRunFailure(env);
     localLog(
       { msg: 'Error executing pipeline', err: err.message || err, env },
       logLevels.error

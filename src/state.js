@@ -4,7 +4,7 @@ const state = {
   environments: {},
 };
 
-function updateTestRunState(env, newState) {
+function updateEnvState(env, newState) {
   const envState = state.environments[env];
 
   Object.keys(newState).forEach(key => (envState[key] = newState[key]));
@@ -21,33 +21,43 @@ export function init() {
         latestTestErrors: null,
         latestTestRunSucceeded: null,
         latestTestRunTimestamp: null,
-        testRunStatus: 'Initialising',
+        pipelineSucceeded: null,
+        testRunStatus: 'initialising',
       };
     }
   });
 }
 
 export function testRunSuccess(env, latestTestCount) {
-  updateTestRunState(env, {
+  updateEnvState(env, {
     latestTestCount,
     latestTestErrors: null,
     latestTestRunSucceeded: true,
-    testRunStatus: 'Waiting',
+    pipelineSucceeded: true,
+    testRunStatus: 'waiting',
   });
 }
 
 export function testRunFailure(env, latestTestCount, latestTestErrors) {
-  updateTestRunState(env, {
+  updateEnvState(env, {
     latestTestCount,
     latestTestErrors,
     latestTestRunSucceeded: false,
-    testRunStatus: 'Waiting',
+    pipelineSucceeded: true,
+    testRunStatus: 'waiting',
   });
 }
 
-export function testRunStart(env) {
-  updateTestRunState(env, {
-    testRunStatus: 'Running',
+export function pipelineRunStart(env) {
+  updateEnvState(env, {
+    testRunStatus: 'running',
+  });
+}
+
+export function pipelineRunFailure(env) {
+  updateEnvState(env, {
+    testRunStatus: 'waiting',
+    pipelineSucceeded: false,
   });
 }
 

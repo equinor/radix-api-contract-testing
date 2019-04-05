@@ -15,6 +15,7 @@
 
 :root {
   --base-font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  --heading-font-family: Equinor, Arial, sans-serif;
   --color-background: hsl(206, 11%, 93%);
   --color-text: hsl(0, 0%, 3%);
 
@@ -39,6 +40,10 @@ html {
   text-decoration-skip-ink: auto;
 }
 
+body {
+  overflow: hidden;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-size: inherit;
   font-weight: inherit;
@@ -51,13 +56,26 @@ h1, h2, h3, h4, h5, h6 {
   cursor: auto;
 }
 
+/* --- Element - Details ---------------------------------------------------- */
+
+details > summary {
+  cursor: pointer;
+}
+
+details > summary:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
 /* --- Object - Headings ---------------------------------------------------- */
 
 .o-heading-page {
   font-family: var(--heading-font-family);
   font-feature-settings: 'ss01';
-  font-size: 1.5rem;
+  font-size: 5vw;
   font-weight: bold;
+  padding-top: var(--space-default-gap);
+  text-align: center;
 }
 
 .o-heading-section {
@@ -65,4 +83,79 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.25rem;
   font-weight: bold;
   margin: var(--space-7) 0 var(--space-5) 0;
+}
+
+/* --- Component - Site ----------------------------------------------------- */
+
+.c-site {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.c-site > header {
+  flex: 0 0 auto;
+}
+
+.c-site > main {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.c-site > footer {
+  flex: 0 0 auto;
+}
+
+/* --- Component - Env list ------------------------------------------------- */
+
+.c-env-list {
+  display: grid;
+  grid-gap: var(--space-default-gap);
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  padding: var(--space-default-gap);
+}
+
+/* --- Component - Env  ----------------------------------------------------- */
+
+.c-env {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.c-env > h2 {
+  color: rgba(255, 255, 255, .75);
+  font-size: 15vw;
+  margin: 0;
+  text-shadow: 0 0 0.25rem #000;
+}
+
+.c-env > details {
+  bottom: 0;
+  padding: 0 var(--space-default-gap) 0 var(--space-default-gap);
+  position: absolute;
+  width: 100%;
+}
+
+.c-env > details > summary {
+  padding: var(--space-default-gap);
+  margin: 0 calc(-1 * var(--space-default-gap));
+}
+
+.c-env > details[open] {
+  background-color: rgba(255, 255, 255, .75);
+  padding-bottom: var(--space-default-gap);
+}
+
+.c-env--failed {
+  background-color: goldenrod;
+
+}
+.c-env--succeeded {
+  background-color: mediumseagreen;
+}
+
+.c-env--pipeline-failed {
+  background-color: indianred
 }
