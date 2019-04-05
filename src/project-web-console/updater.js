@@ -7,11 +7,11 @@ import {
   getSourceTestDepsDir,
   getWorkspace,
 } from './workspace';
-import { makeLogger } from '../logger';
+import { makeLogger, logLevels } from '../logger';
 
 const localLog = makeLogger({ component: 'web-console-updater' });
 const webConsoleRemoteRepo =
-  'git@github.com:' + config.get('webConsoleRepo') + '.git';
+  'https://github.com/' + config.get('webConsoleRepo') + '.git';
 
 async function deleteLocalRepo(env) {
   localLog({ msg: 'Deleting local repo', env });
@@ -38,7 +38,10 @@ async function clone(env, branch, to) {
   }
 
   for await (const buf of stderr) {
-    localLog({ msg: 'Clone process stderr', data: buf.toString('utf8'), env });
+    localLog(
+      { msg: 'Clone process stderr', data: buf.toString('utf8'), env },
+      logLevels.warning
+    );
   }
 }
 
@@ -58,7 +61,10 @@ async function buildTestDependencies(env) {
   }
 
   for await (const buf of stderr) {
-    localLog({ msg: 'Build process stderr', data: buf.toString('utf8'), env });
+    localLog(
+      { msg: 'Build process stderr', data: buf.toString('utf8'), env },
+      logLevels.warning
+    );
   }
 }
 

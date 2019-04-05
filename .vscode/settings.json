@@ -11,7 +11,7 @@
         "**/.svn": true,
         "**/CVS": true,
         "node_modules/": true,
-        "workspace/": true
+        "workspace/*/*": true
     },
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,

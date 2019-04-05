@@ -1,0 +1,5 @@
+# Project resources are cloned/downloaded into here
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore

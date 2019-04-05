@@ -1,8 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# web console gets cloned into here
-/workspace
-
 # local config files
 /config/local*
 

@@ -1,7 +1,8 @@
 {
   "name": "radix-api-contract-testing",
   "version": "1.0.0",
-  "description": "",
+  "description": "Contract testing of the Radix API and consumer projects",
+  "repository": "https://github.com/equinor/radix-api-contract-testing",
   "main": "src/index.js",
   "scripts": {
     "nodemon": "nodemon --ignore workspace/ --exec babel-node src/index.js",
