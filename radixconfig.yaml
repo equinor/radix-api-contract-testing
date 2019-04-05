@@ -1,0 +1,18 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-api-contract-testing
+spec:
+  environments:
+    - name: prod
+      build:
+        from: master
+  components:
+    - name: server
+      src: "."
+      public: true
+      ports:
+       - name: http
+         port: 80
+      secrets:
+        - GITHUB_SHARED_SECRET
