@@ -8,8 +8,11 @@ import { name as appName, version as appVersion } from '../package.json';
 import { getEnvironemnts } from './utils';
 import { makeLogger } from './logger';
 import { runPipelineAndUpdateState } from './pipeline';
+import { setupStreaming } from './streaming';
 import webhookHandler from './webhook';
 import * as state from './state';
+import http from 'http';
+import socketIo from 'socket.io';
 
 state.init();
 
@@ -18,10 +21,15 @@ const localLog = makeLogger({ component: 'app' });
 // --- Set up server -----------------------------------------------------------
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo.listen(server);
+
 app.engine('.hbs', expressHbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', `${__dirname}/views`);
 app.use(bodyParser.text({ type: '*/*' }));
+
+setupStreaming(io);
 
 // --- Routing -----------------------------------------------------------------
 
@@ -44,7 +52,14 @@ app.get('/trigger', (_, res) => {
   getEnvironemnts().forEach(env => {
     runPipelineAndUpdateState(env, []);
   });
-  res.send('triggered');
+  res.send('triggered tests');
+});
+
+app.get('/trigger-update', (_, res) => {
+  getEnvironemnts().forEach(env => {
+    runPipelineAndUpdateState(env);
+  });
+  res.send('triggered update and tests');
 });
 
 app.post('/webhook', webhookHandler);
@@ -53,7 +68,7 @@ app.post('/webhook', webhookHandler);
 
 const port = config.get('port');
 
-app.listen(port, () => {
+server.listen(port, () => {
   localLog(`${appName} ${appVersion} listening on port ${port}`);
 
   getEnvironemnts().forEach(env => {

@@ -1,6 +1,7 @@
 <main class="c-env-list">
   {{#each state.environments}}
     <div
+      id="env-{{@key}}"
       class="
         c-env
         c-env--{{#if this.latestTestRunSucceeded}}succeeded{{else}}failed{{/if}}
@@ -10,22 +11,34 @@
     >
       <h2 class="o-heading-section">{{@key}}</h2>
       <details>
-        <summary>{{this.latestTestRunTimestamp}}</summary>
+        <summary id="env-{{@key}}_latestTestRunTimestamp">
+          {{this.latestTestRunTimestamp}}
+        </summary>
         <dl>
           <dt>latestTestCount</dt>
-          <dd>{{this.latestTestCount}}</dd>
+          <dd id="env-{{@key}}_latestTestCount">
+            {{this.latestTestCount}}
+          </dd>
 
           <dt>latestTestErrors</dt>
-          <dd>{{this.latestTestErrors}}</dd>
+          <dd id="env-{{@key}}_latestTestErrors">
+            {{this.latestTestErrors}}
+          </dd>
 
           <dt>latestTestRunSucceeded</dt>
-          <dd>{{this.latestTestRunSucceeded}}</dd>
+          <dd id="env-{{@key}}_latestTestRunSucceeded">
+            {{this.latestTestRunSucceeded}}
+          </dd>
 
           <dt>testRunStatus</dt>
-          <dd>{{this.testRunStatus}}</dd>
+          <dd id="env-{{@key}}_testRunStatus">
+            {{this.testRunStatus}}
+          </dd>
 
           <dt>pipelineSucceeded</dt>
-          <dd>{{this.pipelineSucceeded}}</dd>
+          <dd id="env-{{@key}}_pipelineSucceeded">
+            {{this.pipelineSucceeded}}
+          </dd>
         </dl>
       </details>
     </div>

@@ -1,3 +1,5 @@
+import eev from 'eev';
+
 import { getEnvironemnts } from './utils';
 
 const state = {
@@ -9,7 +11,11 @@ function updateEnvState(env, newState) {
 
   Object.keys(newState).forEach(key => (envState[key] = newState[key]));
   envState.latestTestRunTimestamp = new Date().toISOString();
+
+  stateEvents.emit('change', state);
 }
+
+export const stateEvents = new eev();
 
 export function init() {
   state.environments = {};

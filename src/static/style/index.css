@@ -104,6 +104,7 @@ details > summary:focus {
 
 .c-site > footer {
   flex: 0 0 auto;
+  text-align: center;
 }
 
 /* --- Component - Env list ------------------------------------------------- */
@@ -159,3 +160,33 @@ details > summary:focus {
 .c-env--pipeline-failed {
   background-color: indianred
 }
+
+.c-env--running::after,
+.c-env--running::before {
+  background: #000;
+  content: '';
+  height: 5vw;
+  opacity: .5;
+  position: absolute;
+  right: calc(2.5vw + 1rem);
+  top: 1rem;
+  width: 1vw;
+}
+
+.c-env--running::after {
+  animation: spinner-a 1s ease infinite;
+  transform: rotate(90deg);
+}
+
+.c-env--running::before {
+  animation: spinner-b 1s ease infinite;
+}
+
+@keyframes spinner-a {
+  to {transform: rotate(450deg);}
+}
+
+@keyframes spinner-b {
+  to {transform: rotate(360deg);}
+}
+
