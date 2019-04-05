@@ -3,6 +3,9 @@ kind: RadixApplication
 metadata:
   name: radix-api-contract-testing
 spec:
+  dnsAppAlias:
+    environment: prod
+    component: server
   environments:
     - name: prod
       build:
