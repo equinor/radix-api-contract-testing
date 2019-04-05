@@ -44,6 +44,25 @@ If you change `package.json` (e.g. add a dependency), or want to force a clean d
 
 This is a Radix application. Commits to `master` will trigger a build and deployment to the only (`prod`) environment.
 
+## Project configuration
+
+The GitHub repos for `radix-web-console` and `radix-api` require a [webhook](https://developer.github.com/webhooks/) each, with the following settings:
+
+- Payload URL: `https://radix-api-contract-testing.app.radix.equinor.com/webhook`
+- Content type: `application/json`
+- Secret: The same as used in the [Secerts](#secrets) section below
+- Events: Just the `push` event
+
+## Secrets
+
+The application requires one environment variable, `GITHUB_SHARED_SECRET`, that should be defined as a Radix secret in production. For local development, instead of an environment variable you can create the file `/config/local.json` (this won't be added to git), and specify the value as such:
+
+```json
+{
+  "githubSharedSecret": "secret-value-here"
+}
+```
+
 ## Folder structure
 
 The base directory is organised as defined by Create React App. Within `/src`, however:
@@ -68,7 +87,7 @@ To get ESLint to run properly from your editor you will need to have it set up i
 
     npm install --only=dev && npm install --no-save eslint
 
-Note the "no save" `eslint` installation — this is to avoid a conflict with the version bundled with CRA, which sometimes does not work from within a code editor, without attempting to install another `eslint` version in the build.
+Note the "no save" `eslint` installation — this is to avoid a conflict with the version within the Docker container, which sometimes does not work from within a code editor.
 
 ## Production build
 
