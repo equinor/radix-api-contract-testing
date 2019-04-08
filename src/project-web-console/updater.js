@@ -46,14 +46,17 @@ async function clone(env, branch, to) {
 }
 
 async function buildTestDependencies(env) {
-  localLog({ msg: 'Building test deps', env });
+  const sourceDir = getSourceTestDepsDir(env);
+  const targetDir = getBuiltTestDepsDir(env);
+
+  localLog({ msg: 'Building test deps', sourceDir, targetDir, env });
 
   const { stdout, stderr } = spawn('node', [
     './node_modules/.bin/babel',
     '--presets=@babel/preset-env',
     '--out-dir',
-    getBuiltTestDepsDir(env),
-    getSourceTestDepsDir(env),
+    targetDir,
+    sourceDir,
   ]);
 
   for await (const buf of stdout) {

@@ -23,9 +23,8 @@ export async function runPipeline(env, changedProjects) {
 }
 
 export async function runPipelineAndUpdateState(env, changedProjects) {
-  state.pipelineRunStart(env);
-
   try {
+    state.pipelineRunStart(env);
     const result = await runPipeline(env, changedProjects);
 
     if (result.failures.length > 0) {
