@@ -19,11 +19,18 @@ function validateSignature(req) {
   return expectedSignature === givenSignature;
 }
 
-function startIntergationTest(updatedProject, branch, res) {
-  const env = getKeyByValue(branchEnvMapping[updatedProject], branch);
+function startIntergationTest(project, branch, res) {
+  const env = getKeyByValue(branchEnvMapping[project], branch);
+
+  if (!env) {
+    const msg = 'Build not triggered for unmapped branch';
+    localLog({ msg, project, branch }, logLevels.warning);
+    return res.status(202).send(`${msg}, branch ${branch}, project ${project}`);
+  }
+
   const msg = 'Integration test started';
-  localLog({ msg, updatedProject, branch, env });
-  runPipelineAndUpdateState(env, [updatedProject]);
+  localLog({ msg, project, branch, env });
+  runPipelineAndUpdateState(env, [project]);
   return res.status(200).send(`${msg}, branch ${branch}, environment ${env}`);
 }
 
