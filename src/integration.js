@@ -19,8 +19,10 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
     samples.forEach((rawSample, sampleNumber) => {
       const sample = Object.assign({}, rawSample);
       const testDescription = sample.__testDescription;
+      const shouldFail = !!sample.__testShouldFail;
 
       delete sample.__testDescription;
+      delete sample.__testShouldFail;
 
       ++testCount;
 
@@ -35,7 +37,25 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
 
       const testErrors = checkExact(modelType, apiProps[modelType], sample);
 
-      if (testErrors.length > 0) {
+      if (shouldFail && testErrors.length === 0) {
+        localLog(
+          {
+            msg: 'Failed test (should not pass but did)',
+            runNumber,
+            modelType,
+            sampleNumber,
+            testDescription,
+            propFailures: testErrors.length,
+            env,
+          },
+          logLevels.warning
+        );
+
+        failures.push({
+          test: testDescription,
+          error: 'The test should not have passed',
+        });
+      } else if (!shouldFail && testErrors.length > 0) {
         localLog(
           {
             msg: 'Failed test',
@@ -48,11 +68,11 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
           },
           logLevels.warning
         );
-      }
 
-      testErrors.forEach(error =>
-        failures.push({ test: testDescription, error })
-      );
+        testErrors.forEach(error =>
+          failures.push({ test: testDescription, error })
+        );
+      }
     });
   });
 
