@@ -19,10 +19,10 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
     samples.forEach((rawSample, sampleNumber) => {
       const sample = Object.assign({}, rawSample);
       const testDescription = sample.__testDescription;
-      const shouldFail = !!sample.__testShouldFail;
+      const isInvalidSample = !!sample.__testIsInvalidSample;
 
       delete sample.__testDescription;
-      delete sample.__testShouldFail;
+      delete sample.__testIsInvalidSample;
 
       ++testCount;
 
@@ -37,10 +37,10 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
 
       const testErrors = checkExact(modelType, apiProps[modelType], sample);
 
-      if (shouldFail && testErrors.length === 0) {
+      if (isInvalidSample && testErrors.length === 0) {
         localLog(
           {
-            msg: 'Failed test (should not pass but did)',
+            msg: 'Failed test (validation should have failed)',
             runNumber,
             modelType,
             sampleNumber,
@@ -53,9 +53,9 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
 
         failures.push({
           test: testDescription,
-          error: 'The test should not have passed',
+          error: 'The data sample should have triggered a validation failure',
         });
-      } else if (!shouldFail && testErrors.length > 0) {
+      } else if (!isInvalidSample && testErrors.length > 0) {
         localLog(
           {
             msg: 'Failed test',
