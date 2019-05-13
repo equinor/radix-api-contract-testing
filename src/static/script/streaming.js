@@ -36,8 +36,20 @@ if (typeof io !== 'undefined') {
 
       $(`env-${envName}_latestTestCount`).innerText = envState.latestTestCount;
 
-      $(`env-${envName}_latestTestErrors`).innerText =
-        envState.latestTestErrors;
+      $(`env-${envName}_latestTestErrors`).innerHTML = `
+        <ul>
+        ${envState.latestTestErrors.map(
+          testError => `
+          <li>
+            <dl>
+              <dt>test</dt>
+              <dd>${testError.test}</dd>
+              <dt>error</dt>
+              <dd>${testError.error}</dd>
+            </dl>
+          </li>`
+        )}
+      </ul>`;
 
       $(`env-${envName}_latestTestRunSucceeded`).innerText =
         envState.latestTestRunSucceeded;

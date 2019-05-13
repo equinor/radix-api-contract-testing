@@ -24,7 +24,15 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo.listen(server);
 
-app.engine('.hbs', expressHbs({ defaultLayout: 'main', extname: '.hbs' }));
+var hbs = expressHbs.create({
+  defaultLayout: 'main',
+  extname: '.hbs',
+  helpers: {
+    unixtime: date => new Date(date).getTime(),
+  },
+});
+
+app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
 app.set('views', `${__dirname}/views`);
 app.use(bodyParser.text({ type: '*/*' }));
@@ -60,6 +68,13 @@ app.get('/trigger-update', (_, res) => {
     runPipelineAndUpdateState(env);
   });
   res.send('triggered update and tests');
+});
+
+app.get('/metrics', (_, res) => {
+  res.render('metrics', {
+    layout: null,
+    state: state.getState(),
+  });
 });
 
 app.post('/webhook', webhookHandler);
