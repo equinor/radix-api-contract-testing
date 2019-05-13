@@ -1,0 +1,6 @@
+{{#each state.environments}}
+latest_test_run_end_time{env="{{@key}}"} {{unixtime latestTestRunTimestamp}}
+latest_test_count{env="{{@key}}"} {{latestTestCount}}
+latest_test_errors{env="{{@key}}"} {{latestTestErrors.length}}
+pipeline_succeeded{env="{{@key}}"} {{#if pipelineSucceeded}}1{{else}}0{{/if}}
+{{/each}}

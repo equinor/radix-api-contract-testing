@@ -4,40 +4,51 @@
       id="env-{{@key}}"
       class="
         c-env
-        c-env--{{#if this.latestTestRunSucceeded}}succeeded{{else}}failed{{/if}}
-        c-env--{{this.testRunStatus}}
-        {{#unless this.pipelineSucceeded}}c-env--pipeline-failed{{/unless}}
+        c-env--{{#if latestTestRunSucceeded}}succeeded{{else}}failed{{/if}}
+        c-env--{{testRunStatus}}
+        {{#unless pipelineSucceeded}}c-env--pipeline-failed{{/unless}}
       "
     >
       <h2 class="o-heading-section">{{@key}}</h2>
       <details>
         <summary id="env-{{@key}}_latestTestRunTimestamp">
-          {{this.latestTestRunTimestamp}}
+          {{latestTestRunTimestamp}}
         </summary>
         <dl>
           <dt>latestTestCount</dt>
           <dd id="env-{{@key}}_latestTestCount">
-            {{this.latestTestCount}}
+            {{latestTestCount}}
           </dd>
 
           <dt>latestTestErrors</dt>
           <dd id="env-{{@key}}_latestTestErrors">
-            {{this.latestTestErrors}}
+            <ul>
+              {{#each latestTestErrors}}
+                <li>
+                  <dl>
+                    <dt>test</dt>
+                    <dd>{{test}}</dd>
+                    <dt>error</dt>
+                    <dd>{{error}}</dd>
+                  </dl>
+                </li>
+              {{/each}}
+            </ul>
           </dd>
 
           <dt>latestTestRunSucceeded</dt>
           <dd id="env-{{@key}}_latestTestRunSucceeded">
-            {{this.latestTestRunSucceeded}}
+            {{latestTestRunSucceeded}}
           </dd>
 
           <dt>testRunStatus</dt>
           <dd id="env-{{@key}}_testRunStatus">
-            {{this.testRunStatus}}
+            {{testRunStatus}}
           </dd>
 
           <dt>pipelineSucceeded</dt>
           <dd id="env-{{@key}}_pipelineSucceeded">
-            {{this.pipelineSucceeded}}
+            {{pipelineSucceeded}}
           </dd>
         </dl>
       </details>

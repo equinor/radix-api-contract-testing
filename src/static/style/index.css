@@ -134,6 +134,8 @@ details > summary:focus {
 
 .c-env > details {
   bottom: 0;
+  max-height: 100%;
+  overflow: auto;
   padding: 0 var(--space-default-gap) 0 var(--space-default-gap);
   position: absolute;
   width: 100%;
