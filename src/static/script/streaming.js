@@ -38,17 +38,19 @@ if (typeof io !== 'undefined') {
 
       $(`env-${envName}_latestTestErrors`).innerHTML = `
         <ul>
-        ${envState.latestTestErrors.map(
-          testError => `
-          <li>
-            <dl>
-              <dt>test</dt>
-              <dd>${testError.test}</dd>
-              <dt>error</dt>
-              <dd>${testError.error}</dd>
-            </dl>
-          </li>`
-        )}
+        ${(envState.latestTestErrors || [])
+          .map(
+            testError => `
+              <li>
+                <dl>
+                  <dt>test</dt>
+                  <dd>${testError.test}</dd>
+                  <dt>error</dt>
+                  <dd>${testError.error}</dd>
+                </dl>
+              </li>`
+          )
+          .join('')}
       </ul>`;
 
       $(`env-${envName}_latestTestRunSucceeded`).innerText =
