@@ -14,6 +14,9 @@ spec:
     - name: server
       src: "."
       public: true
+      environmentConfig:
+        - environment: prod
+          monitoring: true
       ports:
        - name: http
          port: 80
