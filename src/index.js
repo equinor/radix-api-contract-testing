@@ -71,6 +71,7 @@ app.get('/trigger-update', (_, res) => {
 });
 
 app.get('/metrics', (_, res) => {
+  res.type('text/plain');
   res.render('metrics', {
     layout: null,
     state: state.getState(),
