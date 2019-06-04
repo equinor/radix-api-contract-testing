@@ -1,5 +1,5 @@
 {
   "apiClusterName": "RADIX_CLUSTERNAME",
-  "apiClusterDomain": "RADIX_CLUSTER_BASE",
+  "apiClusterDomain": "RADIX_DNS_ZONE",
   "githubSharedSecret": "GITHUB_SHARED_SECRET"
 }
