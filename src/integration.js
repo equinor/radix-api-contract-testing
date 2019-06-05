@@ -18,7 +18,7 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
 
     samples.forEach((rawSample, sampleNumber) => {
       const sample = Object.assign({}, rawSample);
-      const testDescription = sample.__testDescription;
+      const testDescription = `${modelType} - ${sample.__testDescription}`;
       const isInvalidSample = !!sample.__testIsInvalidSample;
 
       delete sample.__testDescription;
@@ -70,7 +70,7 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
         );
 
         testErrors.forEach(error =>
-          failures.push({ model: modelType, test: testDescription, error })
+          failures.push({ test: testDescription, error })
         );
       }
     });

@@ -7,5 +7,7 @@ const TEST_DEPS_MODULE = 'test-dependencies';
 
 export default async function fetcher(env) {
   localLog({ msg: 'Fetching Web Console test dependencies', env });
-  return await require(`${getBuiltTestDepsDir(env)}/${TEST_DEPS_MODULE}`);
+  const module = `${getBuiltTestDepsDir(env)}/${TEST_DEPS_MODULE}`;
+  delete require.cache[require.resolve(module)];
+  return await require(module);
 }
