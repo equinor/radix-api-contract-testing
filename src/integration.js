@@ -70,7 +70,7 @@ export default function runIntegrationTest(env, apiProps, sampleModelData) {
         );
 
         testErrors.forEach(error =>
-          failures.push({ test: testDescription, error })
+          failures.push({ model: modelType, test: testDescription, error })
         );
       }
     });
