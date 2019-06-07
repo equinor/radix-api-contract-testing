@@ -14,9 +14,11 @@ import * as state from './state';
 import http from 'http';
 import socketIo from 'socket.io';
 
-state.init();
-
 const localLog = makeLogger({ component: 'app' });
+
+localLog({ msg: 'Starting with config', config });
+
+state.init();
 
 // --- Set up server -----------------------------------------------------------
 
