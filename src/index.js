@@ -11,6 +11,7 @@ import { runPipelineAndUpdateState } from './pipeline';
 import { setupStreaming } from './streaming';
 import webhookHandler from './webhook';
 import * as state from './state';
+import * as hbsHelpers from './hbs-helpers';
 import http from 'http';
 import socketIo from 'socket.io';
 
@@ -26,11 +27,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo.listen(server);
 
-var hbs = expressHbs.create({
+// --- Handlebars templating ---------------------------------------------------
+
+const hbs = expressHbs.create({
   defaultLayout: 'main',
   extname: '.hbs',
   helpers: {
-    unixtime: date => new Date(date).getTime(),
+    compare: hbsHelpers.compare,
+    unixtime: hbsHelpers.unixtime,
   },
 });
 
