@@ -23,7 +23,7 @@ export function init() {
   getEnvironemnts().forEach(env => {
     if (!state.environments[env]) {
       state.environments[env] = {
-        latestTestCount: 0,
+        latestTestCount: null,
         latestTestErrors: null,
         latestTestRunSucceeded: null,
         latestTestRunTimestamp: null,
@@ -37,7 +37,7 @@ export function init() {
 export function testRunSuccess(env, latestTestCount) {
   updateEnvState(env, {
     latestTestCount,
-    latestTestErrors: null,
+    latestTestErrors: [],
     latestTestRunSucceeded: true,
     pipelineSucceeded: true,
     testRunStatus: 'waiting',
