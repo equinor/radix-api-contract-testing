@@ -192,3 +192,11 @@ details > summary:focus {
   to {transform: rotate(360deg);}
 }
 
+/* --- Component - Triggers  ------------------------------------------------ */
+
+.c-triggers {
+  bottom: 2px;
+  display: flex;
+  position: fixed;
+  right: var(--space-default-gap);
+}

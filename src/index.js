@@ -62,14 +62,14 @@ app.get('/', (_, res) =>
   })
 );
 
-app.get('/trigger', (_, res) => {
+app.post('/trigger-tests', (_, res) => {
   getEnvironemnts().forEach(env => {
     runPipelineAndUpdateState(env, []);
   });
   res.send('triggered tests');
 });
 
-app.get('/trigger-update', (_, res) => {
+app.post('/trigger-update', (_, res) => {
   getEnvironemnts().forEach(env => {
     runPipelineAndUpdateState(env);
   });

@@ -14,11 +14,17 @@
       <h1 class="o-heading-page">Radix API Contract Testing</h1>
     </header>
     {{{body}}}
+    <nav class="c-triggers">
+      <span>Trigger:</span>
+      <button id="trigger-tests">Tests</button>
+      <button id="trigger-update">Update and tests</button>
+    </nav>
     <footer>
       Last update received <span id="last-update"></span>
     </footer>
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/static/script/streaming.js"></script>
+  <script src="/static/script/triggers.js"></script>
 </body>
 </html>
