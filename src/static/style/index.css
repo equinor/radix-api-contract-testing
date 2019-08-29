@@ -200,3 +200,7 @@ details > summary:focus {
   position: fixed;
   right: var(--space-default-gap);
 }
+
+.c-triggers > * {
+  margin-left: var(--space-default-gap);
+}
