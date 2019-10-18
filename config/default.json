@@ -1,5 +1,5 @@
 {
-  "apiClusterName": "prod-1",
+  "apiClusterName": "prod-39",
   "apiClusterDomain": "radix.equinor.com",
   "apiDomain": "server-radix-api",
   "apiRepo": "equinor/radix-api",
