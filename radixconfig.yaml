@@ -13,12 +13,13 @@ spec:
   components:
     - name: server
       src: "."
-      public: true
+      publicPort: http
       environmentConfig:
         - environment: prod
           monitoring: true
+          runAsNonRoot: true
       ports:
        - name: http
-         port: 80
+         port: 8080
       secrets:
         - GITHUB_SHARED_SECRET
