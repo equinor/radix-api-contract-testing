@@ -11,4 +11,5 @@ RUN npm ci
 RUN mkdir -p /root/.ssh
 RUN sh ./trust-github.sh
 
+USER 65534
 CMD npm start
