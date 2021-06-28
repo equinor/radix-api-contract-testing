@@ -19,11 +19,12 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "config": "^3.3.3",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/node": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "config": "^3.3.1",
+
     "eev": "^0.1.5",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
