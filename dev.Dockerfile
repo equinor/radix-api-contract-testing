@@ -12,3 +12,5 @@ RUN sh ./trust-github.sh
 
 VOLUME [ "/app/node_modules" ]
 VOLUME [ "/app/workspace" ]
+
+USER 65534
